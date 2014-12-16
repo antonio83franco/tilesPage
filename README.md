@@ -18,21 +18,22 @@ Create a widget that displays 5 Ad listing horizontally with titles and price.
 
 DESKTOP
 -------
+```
 -------------------------------------------------------------
 |price      |price      |price      |price      |price      |
 |           |           |           |           |           |
 |           |           |           |           |           |
-|           |           |           | n          |           |
+|           |           |           |           |           |
 |title      |title      |title      |title      |title      |
 -------------------------------------------------------------
-
+```
 
 PORTRAIT TABLET
 ---------------
 The widget should display 3 ads on a portrait tablet device and a single ad on a phone.
 On tablet and phone the widget should enable the user to click/tap and view the Ads not
 in the view port. (A carousel)
-
+```
       -------------------------------------
       |price      |price      |price      |
       |           |           |           |
@@ -40,9 +41,10 @@ in the view port. (A carousel)
       |           |           |           |
       |title      |title      |title      |
       -------------------------------------
-
+```
 PHONE
 -----
+```
       -------------
       |price      |
       |           |
@@ -50,7 +52,7 @@ PHONE
       |           |
       |title      |
       -------------
-
+```
 
 
 The Ads should be load from data/data.json with an ajax request. Only ads with the category 'cars' should
