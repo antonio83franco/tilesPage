@@ -62,3 +62,4 @@ Use any libs / tools you like.
 
 Should take 6 hours or less.
 
+Send us a link you your repository in git when done.
