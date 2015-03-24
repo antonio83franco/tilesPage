@@ -1,26 +1,26 @@
-<div id="loading" class="spinner">
-	    Loading...
-</div>
 
 <div class="row">
-    <div class="col">C1</div>
+    <div class="col" onclick="showPrev()"> <--</div>
     <div class="col center">
+		<div id="loading" class="spinner">
+			    Loading...
+		</div>
 		<div id="tiles">
 			
 		</div>
     </div>
-    <div class="col">C3</div>
+    <div class="col" onclick="showNext()">--></div>
 </div>
 
 
 
 <script id="tile-template" type="text/plain">
-	<div class="box fill round tile">
+	<div class="tile" id="%%id%%">
         <div class="tile-frame" title="%%title%%" href="http://www.marktplaats.nl" target="_blank">
-			<span class="text tile-price">%%price%%</span>
+			<span class="tile-price">%%price%%</span>
 			<!-- <div class="tile-img" style="background-image: url(%%img%%);"></div> -->
             <img class="tile-img" alt="%%title%%" src="%%img%%">
-            <span class="text tile-title">%%title%%</span>
+            <span class="tile-title">%%title%%</span>
         </div>            
     </div>
 </script>
@@ -30,32 +30,54 @@
 	//xhr request for modern browsers in 130 bytes. yay! https://gist.github.com/azproduction/1625623
 	var tiny_xhr = function(m,u,c,d){with(new XMLHttpRequest)onreadystatechange=function(){readyState^4||c(this)},open(m,u),send(d)};
 
-	var showTiles = function (tilesJSON) {
+	var currentIdx = 0;
+	var maxIdx = 0;
+
+	var showNext = function () {
+		if(currentIdx === maxIdx) return;
+
+		document.getElementById(currentIdx+"").style.display = "none";
+		currentIdx++;
+		document.getElementById(currentIdx+"").style.display = "block";
+	};
+
+	var showPrev = function () {
+		if(currentIdx === 0) return;
+
+		document.getElementById(currentIdx+"").style.display = "none";
+		currentIdx--;
+		document.getElementById(currentIdx+"").style.display = "block";
+	};
+
+	var setTiles = function (tilesJSON) {
 
 		var template = document.getElementById("tile-template").innerHTML,
 			tilesList = document.getElementById("tiles"),
 			tilesElems = [];
 
-		tilesJSON.forEach(function (tile) {
+		tilesJSON.forEach(function (tile, i) {
 
 			tileItem = template;
 
+			tileItem = tileItem.replace(/%%id%%/g, i);
 			tileItem = tileItem.replace(/%%title%%/g, tile.title);
 			tileItem = tileItem.replace(/%%price%%/g, accounting.formatMoney(tile.price, "€ ", 2, ".", ","));
 			tileItem = tileItem.replace(/%%img%%/g, tile.img);
 
 			tilesElems.push(tileItem);
+			maxIdx = i;
 		});
 
 		document.getElementById("loading").style.display = "none";
 		tilesList.innerHTML = tilesElems.join("");
 		
+		document.getElementById(currentIdx+"").style.display = "block";
 	}
 	
 	var fetchData = function () {
 		tiny_xhr('get', '/cars', function (xhr){	
 			if(xhr.responseText) {
-				showTiles(JSON.parse(xhr.response));
+				setTiles(JSON.parse(xhr.response));
 			}
 		});
 	}	

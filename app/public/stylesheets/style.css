@@ -9,7 +9,7 @@ a {
 
 #header {
 	background-color: #f2b479;
-	height: 120px;
+	height: 47px;
 	border-bottom: 1px solid #a6784b;
 	padding: 8px;
 }
@@ -25,12 +25,6 @@ a {
 
 }
 
-.text {
-	font-size: 34px;
-	font-weight: 100;
-}
-
-
 /*Grid*/
 .row {
     display: table;
@@ -39,15 +33,18 @@ a {
 }
 .col {
     display: table-cell;
-    background-color: red; /*Optional*/
+	vertical-align: middle;
 }
 .center {
 	width: 70%;
-background-color: green; /*Optional*/	
 }
 
 
 /*Tiles styles*/
+
+.tile {
+	display: none;
+}
 
 #tiles > div {
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
@@ -56,11 +53,11 @@ background-color: green; /*Optional*/
 	width: 100%;
 	padding-bottom: 13px;
 	margin: 0 10px 10px 0;
-	border-radius: 8px;
+	border-radius: 3px;
 }
 
 .tile-frame {
-	margin: 15px;
+	margin: 5px;
 }
 
 .tile-title {
