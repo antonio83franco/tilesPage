@@ -2,18 +2,27 @@
 	    Loading...
 </div>
 
-<ul id="tiles">
-	
-</ul>
+<div class="row">
+    <div class="col">C1</div>
+    <div class="col center">
+		<div id="tiles">
+			
+		</div>
+    </div>
+    <div class="col">C3</div>
+</div>
+
+
 
 <script id="tile-template" type="text/plain">
-	<li class="box fill round tile">
-        <a class="tile-frame" title="%%title%%" href="http://www.marktplaats.nl" target="_blank">
-			<span class="tile-price">%%price%%</span>
+	<div class="box fill round tile">
+        <div class="tile-frame" title="%%title%%" href="http://www.marktplaats.nl" target="_blank">
+			<span class="text tile-price">%%price%%</span>
+			<!-- <div class="tile-img" style="background-image: url(%%img%%);"></div> -->
             <img class="tile-img" alt="%%title%%" src="%%img%%">
-            <span class="tile-title">%%title%%</span>
-        </a>            
-    </li>
+            <span class="text tile-title">%%title%%</span>
+        </div>            
+    </div>
 </script>
 
 <script type="text/javascript">
@@ -31,9 +40,8 @@
 
 			tileItem = template;
 
-
 			tileItem = tileItem.replace(/%%title%%/g, tile.title);
-			tileItem = tileItem.replace(/%%price%%/g, tile.price);
+			tileItem = tileItem.replace(/%%price%%/g, accounting.formatMoney(tile.price, "€ ", 2, ".", ","));
 			tileItem = tileItem.replace(/%%img%%/g, tile.img);
 
 			tilesElems.push(tileItem);
@@ -58,7 +66,7 @@
 
     	setTimeout(function () {
     		fetchData();
-    	}, 2000);
+    	}, 1000);
 		// tiny_xhr('get', '/cars', function (xhr){
 		
 		// if(xhr.response && xhr.response.length > 0) {
@@ -73,8 +81,7 @@
 
 /*
 TODO:
-Currency format
-carusel
+carusel (the ajax request stay the same)
 image resize
 
 TO OPTIMIZE:

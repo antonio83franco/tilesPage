@@ -9,38 +9,58 @@ a {
 
 #header {
 	background-color: #f2b479;
-	height: 47px;
+	height: 120px;
 	border-bottom: 1px solid #a6784b;
 	padding: 8px;
 }
 
 #content {
 	background-color: #b1c4df;
-	min-height: 350px;
+	/*min-height: 10350px;*/ /*=========================*/
 	margin: 0px;
 	padding-top: 10px;
 }
 
 #loading {
-	
+
+}
+
+.text {
+	font-size: 34px;
+	font-weight: 100;
+}
+
+
+/*Grid*/
+.row {
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+}
+.col {
+    display: table-cell;
+    background-color: red; /*Optional*/
+}
+.center {
+	width: 70%;
+background-color: green; /*Optional*/	
 }
 
 
 /*Tiles styles*/
 
-#tiles {
-  list-style: none;
-}
-
-#tiles > li {
+#tiles > div {
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 	background-color: #FFFFFF;
-	padding: 4px;
 	float: left;
-	width: 220px;
+	width: 100%;
 	padding-bottom: 13px;
-	margin: 0 5px 5px 0;
-	border-radius: 2px;
+	margin: 0 10px 10px 0;
+	border-radius: 8px;
+}
+
+.tile-frame {
+	margin: 15px;
 }
 
 .tile-title {
@@ -56,7 +76,8 @@ a {
 }
 
 .tile-img {
-	height: 220px;
-	width: 220px;
+	/*height: 220px;*/
+	width: 100%; 
 	margin: 8px 0px 8px 0px;
+	/*background-size: cover;*/
 }
