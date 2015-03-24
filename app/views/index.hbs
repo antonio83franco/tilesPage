@@ -1,2 +1,87 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<ul id="tiles">
+	{{#each placeholder}}
+	<li id="tile-template" class="box fill round tile">
+        <a class="tile-frame" title="{{title}}" href="http://www.marktplaats.nl" target="_blank">
+        	<span class="tile-title">{{title}}</span>
+            <img class="tile-img" alt="{{title}}" src="/images/game.jpg">
+            <span class="tile-price">{{price}}</span>
+        </a>            
+    </li>
+	{{/each}}
+</ul>
+
+<script type="text/javascript">
+	
+	//xhr request for modern browsers in 130 bytes. yay! https://gist.github.com/azproduction/1625623
+	var tiny_xhr = function(m,u,c,d){with(new XMLHttpRequest)onreadystatechange=function(){readyState^4||c(this)},open(m,u),send(d)};
+
+	
+	var showTiles = function (tilesJSON) {
+
+		var template = document.getElementById("tile-template"),
+			tilesList = document.getElementById("tiles"),
+			tileItem, tFrame, tTitle, tImg, tPrice;
+
+		template.style.display = "none";
+
+		tilesJSON.forEach(function (tile) {
+			tileItem = template.cloneNode(true);
+
+			tFrame = tileItem.getElementsByClassName("tile-frame")[0];
+			tFrame.setAttribute("title", tile.title);
+
+			tTitle = tileItem.getElementsByClassName("tile-title")[0];
+			tTitle.innerHTML = tile.title;
+
+			tImg = tileItem.getElementsByClassName("tile-img")[0];
+			tImg.setAttribute("alt", tile.title);
+			tImg.setAttribute("src", tile.img);
+
+			tPrice = tileItem.getElementsByClassName("tile-price")[0];
+			tPrice.innerHTML = tile.price;
+
+			tileItem.style.display = "block"
+			tilesList.appendChild(tileItem);
+		});
+		
+	}
+var resp;
+
+	var fetchData = function () {
+		tiny_xhr('get', '/cars', function (xhr){	
+			if(xhr.responseText) {
+				showTiles(JSON.parse(xhr.response));
+			}
+		});
+	}	
+
+	document.addEventListener("DOMContentLoaded", function(event) {
+    	console.log("DOM fully loaded and parsed");
+
+		// tiny_xhr('get', '/cars', function (xhr){
+		
+		// if(xhr.response && xhr.response.length > 0) {
+
+			// showTiles(xhr.response)
+		// }
+		// 	console.log(xhr.response);
+		// });
+
+	});
+
+
+/*
+TODO:
+send the request on page load and wait DOMContentLoaded to actually show the results on the UI
+use promises
+
+Important to mention:
+new /cars endpoint allow me to move the data filtering in the backend
+
+
+*/
+
+
+</script>
+
+
