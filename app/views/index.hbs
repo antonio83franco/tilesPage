@@ -1,52 +1,49 @@
+<div id="loading" class="spinner">
+	    Loading...
+</div>
+
 <ul id="tiles">
-	{{#each placeholder}}
-	<li id="tile-template" class="box fill round tile">
-        <a class="tile-frame" title="{{title}}" href="http://www.marktplaats.nl" target="_blank">
-        	<span class="tile-title">{{title}}</span>
-            <img class="tile-img" alt="{{title}}" src="/images/game.jpg">
-            <span class="tile-price">{{price}}</span>
+	
+</ul>
+
+<script id="tile-template" type="text/plain">
+	<li class="box fill round tile">
+        <a class="tile-frame" title="%%title%%" href="http://www.marktplaats.nl" target="_blank">
+			<span class="tile-price">%%price%%</span>
+            <img class="tile-img" alt="%%title%%" src="%%img%%">
+            <span class="tile-title">%%title%%</span>
         </a>            
     </li>
-	{{/each}}
-</ul>
+</script>
 
 <script type="text/javascript">
 	
 	//xhr request for modern browsers in 130 bytes. yay! https://gist.github.com/azproduction/1625623
 	var tiny_xhr = function(m,u,c,d){with(new XMLHttpRequest)onreadystatechange=function(){readyState^4||c(this)},open(m,u),send(d)};
 
-	
 	var showTiles = function (tilesJSON) {
 
-		var template = document.getElementById("tile-template"),
+		var template = document.getElementById("tile-template").innerHTML,
 			tilesList = document.getElementById("tiles"),
-			tileItem, tFrame, tTitle, tImg, tPrice;
-
-		template.style.display = "none";
+			tilesElems = [];
 
 		tilesJSON.forEach(function (tile) {
-			tileItem = template.cloneNode(true);
 
-			tFrame = tileItem.getElementsByClassName("tile-frame")[0];
-			tFrame.setAttribute("title", tile.title);
+			tileItem = template;
 
-			tTitle = tileItem.getElementsByClassName("tile-title")[0];
-			tTitle.innerHTML = tile.title;
 
-			tImg = tileItem.getElementsByClassName("tile-img")[0];
-			tImg.setAttribute("alt", tile.title);
-			tImg.setAttribute("src", tile.img);
+			tileItem = tileItem.replace(/%%title%%/g, tile.title);
+			tileItem = tileItem.replace(/%%price%%/g, tile.price);
+			tileItem = tileItem.replace(/%%img%%/g, tile.img);
 
-			tPrice = tileItem.getElementsByClassName("tile-price")[0];
-			tPrice.innerHTML = tile.price;
-
-			tileItem.style.display = "block"
-			tilesList.appendChild(tileItem);
+			tilesElems.push(tileItem);
 		});
+
+		document.getElementById("loading").style.display = "none";
+		tilesList.innerHTML = tilesElems.join("");
 		
 	}
-var resp;
-
+	
 	var fetchData = function () {
 		tiny_xhr('get', '/cars', function (xhr){	
 			if(xhr.responseText) {
@@ -58,6 +55,10 @@ var resp;
 	document.addEventListener("DOMContentLoaded", function(event) {
     	console.log("DOM fully loaded and parsed");
 
+
+    	setTimeout(function () {
+    		fetchData();
+    	}, 2000);
 		// tiny_xhr('get', '/cars', function (xhr){
 		
 		// if(xhr.response && xhr.response.length > 0) {
@@ -72,6 +73,11 @@ var resp;
 
 /*
 TODO:
+Currency format
+carusel
+image resize
+
+TO OPTIMIZE:
 send the request on page load and wait DOMContentLoaded to actually show the results on the UI
 use promises
 
