@@ -1,18 +1,18 @@
 <div id="loading">
-	<img src="images/spinner.svg">
+    <img src="images/spinner.svg">
 </div>
 <div class="row">
     <div id="showPrev" class="col prev icon" onclick="showPrev()"></div>
     <div class="col center">
-		<div id="tiles" class="row"></div>
+        <div id="tiles" class="row"></div>
     </div>
     <div id="showNext" class="col next icon" onclick="showNext()"></div>
 </div>
 
 <script id="tile-template" type="text/plain">
-	<div class="tile col" id="%%id%%">
+    <div class="tile col" id="%%id%%">
         <div class="tile-frame" title="%%title%%" href="http://www.marktplaats.nl" target="_blank">
-			<span class="tile-price">%%price%%</span>            
+            <span class="tile-price">%%price%%</span>            
             <div class="tile-img" style="background-image: url(%%img%%);"></div>
             <span class="tile-title">%%title%%</span>
         </div>            
@@ -20,134 +20,158 @@
 </script>
 
 <script type="text/javascript">
-	var md = new MobileDetect(window.navigator.userAgent);
-	var tilesOnScreen = [0]; //we assume that the client is mobile, only one tile is shown 
-	var maxIdx = 0;
+    var md = new MobileDetect(window.navigator.userAgent);
+    var tilesOnScreen = [0]; //we assume that the client is mobile, only one tile is shown 
+    var maxIdx = 0;
 
-	var init = function () {
-		if (md.tablet()) {
-			tilesOnScreen = [0, 1, 2]; //the first 3 tiles will be on screen
-		} else if(!md.mobile()) {
-			tilesOnScreen = [0, 1, 2, 3, 4]; //the first 5 tiles will be on screen
-		}
+    var init = function () {
+        if (md.tablet()) {
+            tilesOnScreen = [0, 1, 2]; //the first 3 tiles will be on screen
+        } else if(!md.mobile()) {
+            tilesOnScreen = [0, 1, 2, 3, 4]; //the first 5 tiles will be on screen
+        }
 
-		//for the sake of the test let's simulate some network delay
-		setTimeout(function () {
-    		fetchData();
-    	}, 1000);
-	};
-	
-	//xhr request for modern browsers in 130 bytes. yay! https://gist.github.com/azproduction/1625623
-	var tiny_xhr = function(m,u,c,d){with(new XMLHttpRequest)onreadystatechange=function(){readyState^4||c(this)},open(m,u),send(d)};
+        //for the sake of the test let's simulate some network delay
+        setTimeout(function () {
+            fetchData();
+        }, 1000);
+    };
+    
+    //xhr request for modern browsers in 130 bytes. yay! https://gist.github.com/azproduction/1625623
+    var tiny_xhr = function(m,u,c,d){with(new XMLHttpRequest)onreadystatechange=function(){readyState^4||c(this)},open(m,u),send(d)};
 
-	var showNext = function () {
+    var showNext = function () {
 
-		var lastTile = tilesOnScreen[tilesOnScreen.length - 1],
-			newTileIndex;
+        var lastTile = tilesOnScreen[tilesOnScreen.length - 1],
+            newTileIndex;
 
-		// if the last tile is already shown just return
-		if(lastTile === maxIdx) return;
+        // if the last tile is already shown just return
+        if(lastTile === maxIdx) return;
 
-		// hide the first tile
-		document.getElementById(tilesOnScreen[0]).style.display = "none";
+        // hide the first tile
+        document.getElementById(tilesOnScreen[0]).style.display = "none";
 
-		/* 
-		Add a new tile to the mapping array.
-		Since the tiles indexes are sequencial we can just increase the last index in the array
-		*/
-		newTileIndex = lastTile+1;
-		tilesOnScreen.push(newTileIndex);
-		//remove the hidden tile from the array
-		tilesOnScreen.splice(0,1);
+        /* 
+        Add a new tile to the mapping array.
+        Since the tiles indexes are sequencial we can just increase the last index in the array
+        */
+        newTileIndex = lastTile+1;
+        tilesOnScreen.push(newTileIndex);
+        //remove the hidden tile from the array
+        tilesOnScreen.splice(0,1);
 
-		// show the new tile
-		document.getElementById(newTileIndex).style.display = "block";
-	};
+        // show the new tile
+        document.getElementById(newTileIndex).style.display = "block";
+    };
 
-	var showPrev = function () {
+    var showPrev = function () {
 
-		var newTileIndex;
+        var newTileIndex;
 
-		// if the first tile is already shown just return
-		if(tilesOnScreen[0] === 0) return;
+        // if the first tile is already shown just return
+        if(tilesOnScreen[0] === 0) return;
 
-		//hide the last tile
-		document.getElementById(tilesOnScreen[tilesOnScreen.length - 1]).style.display = "none";
+        //hide the last tile
+        document.getElementById(tilesOnScreen[tilesOnScreen.length - 1]).style.display = "none";
 
-		/* 
-		Add a new tile to the mapping array.
-		Since the tiles indexes are sequencial we can just decrease the first index in the array
-		*/
-		newTileIndex = tilesOnScreen[0]-1;
-		tilesOnScreen.splice(0, 0, newTileIndex);
-		//remove the hidden tile from the array
-		tilesOnScreen.pop();
+        /* 
+        Add a new tile to the mapping array.
+        Since the tiles indexes are sequencial we can just decrease the first index in the array
+        */
+        newTileIndex = tilesOnScreen[0]-1;
+        tilesOnScreen.splice(0, 0, newTileIndex);
+        //remove the hidden tile from the array
+        tilesOnScreen.pop();
 
-		// show the new tile
-		document.getElementById(newTileIndex).style.display = "block";
-	};
+        // show the new tile
+        document.getElementById(newTileIndex).style.display = "block";
+    };
 
-	var setTiles = function (tilesJSON) {
+    var setTiles = function (tilesJSON) {
 
-		var template = document.getElementById("tile-template").innerHTML,
-			tilesList = document.getElementById("tiles"),
-			tilesElems = [];
+        var template = document.getElementById("tile-template").innerHTML,
+            tilesList = document.getElementById("tiles"),
+            tilesElems = [];
 
-		tilesJSON.forEach(function (tile, i) {
+        tilesJSON.forEach(function (tile, i) {
 
-			tileItem = template;
+            tileItem = template;
 
-			tileItem = tileItem.replace(/%%id%%/g, i);
-			tileItem = tileItem.replace(/%%title%%/g, tile.title);
-			tileItem = tileItem.replace(/%%price%%/g, accounting.formatMoney(tile.price, "€ ", 2, ".", ","));
-			tileItem = tileItem.replace(/%%img%%/g, tile.img);
+            tileItem = tileItem.replace(/%%id%%/g, i);
+            tileItem = tileItem.replace(/%%title%%/g, tile.title);
+            tileItem = tileItem.replace(/%%price%%/g, accounting.formatMoney(tile.price, "€ ", 2, ".", ","));
+            tileItem = tileItem.replace(/%%img%%/g, tile.img);
 
-			tilesElems.push(tileItem);
-			maxIdx = i;
-		});
+            tilesElems.push(tileItem);
+            maxIdx = i;
+        });
 
-		tilesList.innerHTML = tilesElems.join("");
+        tilesList.innerHTML = tilesElems.join("");
 
-		hideSpinner();
-		showTiles();
-	};
-	
-	var hideSpinner = function() {
-		document.getElementById("loading").style.display = "none";
-	};
+        hideSpinner();
+        showTiles();
+    };
+    
+    var hideSpinner = function() {
+        document.getElementById("loading").style.display = "none";
+    };
 
-	var fetchData = function () {
-		tiny_xhr('get', '/cars', function (xhr){	
-			if(xhr.responseText) {
-				setTiles(JSON.parse(xhr.response));
-			}
-		});
-	};
+    var fetchData = function () {
+        tiny_xhr('get', '/cars', function (xhr){    
+            if(xhr.responseText) {
+                setTiles(JSON.parse(xhr.response));
+            }
+        });
+    };
 
-	var showTiles = function () {
-		tilesOnScreen.forEach(function(tileIdx) {
-			document.getElementById(tileIdx+"").style.display = "block";
-		});
-	};
+    var showTiles = function () {
+        tilesOnScreen.forEach(function(tileIdx) {
+            document.getElementById(tileIdx+"").style.display = "block";
+        });
+    };
 
-	document.addEventListener("DOMContentLoaded", function(event) {
-    	init();
-	});
+    var setupSwipe = function() {
+        var xDown = null,
+            yDown = null;
 
+        //Attaching listener to handle swipe
+        document.addEventListener('touchstart', function(evt) {
+            xDown = evt.touches[0].clientX;
+            yDown = evt.touches[0].clientY;
+        },
+        false);
 
-/*
-TO OPTIMIZE:
-send the request on page load and wait DOMContentLoaded to actually show the results on the UI
-use promises
+        document.addEventListener('touchmove', function(evt) {
+            if ( ! xDown || ! yDown ) {
+                return;
+            }
 
-Important to mention:
--I create a new /cars endpoint to allow me add some to implement some backend logic and optimize the JSON filtering (only cars shown)
--due to the simplicity of the html i decided to use a (really simple) custom written frontend-templating system, using an external library such as mustache to do that is a bit of an overhead.
--there is a loading spinner showing up before the tiles are shown on screen, it is usually a good practice to show some kind of feedbak to the user while waiting for an async ajax request. I added a setTimeout to delay the rendering of the tiles to simulate this scenario.
--The approach I used througout the test has been mobile first, all the defaults settings (in both JS and CSS) are referring to the mobile scenario. Exceptions are made for tablets and desktops.
+            var xUp = evt.touches[0].clientX;
+            var yUp = evt.touches[0].clientY;
 
+            var xDiff = xDown - xUp;
+            var yDiff = yDown - yUp;
 
-*/
+            if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+                if ( xDiff > 0 ) {
+                    /* left swipe */ 
+                    showNext();
+                } else {
+                    /* right swipe */
+                    showPrev();
+                }
+            }
+            /* reset values */
+            xDown = null;
+            yDown = null;
+        },
+        false);
+    };
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        init();
+        setupSwipe();
+    });
 
 
 </script>
