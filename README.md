@@ -63,3 +63,20 @@ Use any libs / tools you like.
 Should take 6 hours or less.
 
 Send us a link you your repository in git when done.
+
+
+=================================================================
+
+-I created a new /cars endpoint to be able to implement some backend logic and optimise the JSON filtering (since we are only interested on cars items). It make use of fs node module, make sure to run npm install before launching the app.
+
+-due to the simplicity of the html I decided to use a (really simple) custom written frontend-templating system. To me using an external library such as mustacheJS to do that is a bit of an overhead.
+
+-There is a loading spinner showing up before the tiles are shown on screen, it is usually a good practice to show some kind of feedback to the user while waiting for an async ajax request. I added a setTimeout to delay the rendering of the tiles to simulate this scenario.
+
+-The approach I used throughout the test has been mobile first, all the defaults settings (in both JS and CSS) are referring to the mobile scenario. Exceptions are made for tablets and desktops.
+
+-For a simpler device detection I integrate a small 3rd party library called mobile-detect.js. Another JS library account.js is used to format the item prices. 
+
+-I didn't have time to minify CSS and JS, this is obviously needed on production
+
+

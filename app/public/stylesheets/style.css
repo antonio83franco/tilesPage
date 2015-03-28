@@ -20,6 +20,10 @@ a {
 	padding-top: 10px;
 }
 
+#loading {
+  text-align: center;
+}
+
 /*Grid*/
 .row {
     display: table;
@@ -75,6 +79,7 @@ a {
 	margin: 8px 0px 8px 0px;
 }
 
+/* Prev and Next buttons */
 .icon {
 	background-size: contain;
 	background-repeat: no-repeat;

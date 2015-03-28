@@ -1,11 +1,10 @@
+<div id="loading">
+	<img src="images/spinner.svg">
+</div>
 <div class="row">
     <div id="showPrev" class="col prev icon" onclick="showPrev()"></div>
     <div class="col center">
-		<div id="tiles" class="row">
-			<div id="loading">
-				<img src="images/spinner.svg">
-			</div>
-		</div>
+		<div id="tiles" class="row"></div>
     </div>
     <div id="showNext" class="col next icon" onclick="showNext()"></div>
 </div>
@@ -32,6 +31,7 @@
 			tilesOnScreen = [0, 1, 2, 3, 4]; //the first 5 tiles will be on screen
 		}
 
+		//for the sake of the test let's simulate some network delay
 		setTimeout(function () {
     		fetchData();
     	}, 1000);
@@ -108,9 +108,14 @@
 
 		tilesList.innerHTML = tilesElems.join("");
 
+		hideSpinner();
 		showTiles();
 	};
 	
+	var hideSpinner = function() {
+		document.getElementById("loading").style.display = "none";
+	};
+
 	var fetchData = function () {
 		tiny_xhr('get', '/cars', function (xhr){	
 			if(xhr.responseText) {
@@ -121,7 +126,7 @@
 
 	var showTiles = function () {
 		tilesOnScreen.forEach(function(tileIdx) {
-			document.getElementById(tileIdx+"").style.display = "block";			
+			document.getElementById(tileIdx+"").style.display = "block";
 		});
 	};
 
@@ -131,17 +136,15 @@
 
 
 /*
-TODO:
-delete setTimeout
-
-
 TO OPTIMIZE:
 send the request on page load and wait DOMContentLoaded to actually show the results on the UI
 use promises
 
 Important to mention:
-new /cars endpoint allow me to move the data filtering in the backend
-ad hoc frontend-templating
+-I create a new /cars endpoint to allow me add some to implement some backend logic and optimize the JSON filtering (only cars shown)
+-due to the simplicity of the html i decided to use a (really simple) custom written frontend-templating system, using an external library such as mustache to do that is a bit of an overhead.
+-there is a loading spinner showing up before the tiles are shown on screen, it is usually a good practice to show some kind of feedbak to the user while waiting for an async ajax request. I added a setTimeout to delay the rendering of the tiles to simulate this scenario.
+-The approach I used througout the test has been mobile first, all the defaults settings (in both JS and CSS) are referring to the mobile scenario. Exceptions are made for tablets and desktops.
 
 
 */
