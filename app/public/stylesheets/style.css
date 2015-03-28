@@ -1,6 +1,7 @@
 body {
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 	margin: 0;
+	background-color: #b1c4df;
 }
 
 a {
@@ -9,20 +10,14 @@ a {
 
 #header {
 	background-color: #f2b479;
-	height: 47px;
+	height: 24px;
 	border-bottom: 1px solid #a6784b;
 	padding: 8px;
 }
 
 #content {
-	background-color: #b1c4df;
-	/*min-height: 10350px;*/ /*=========================*/
 	margin: 0px;
 	padding-top: 10px;
-}
-
-#loading {
-
 }
 
 /*Grid*/
@@ -30,6 +25,7 @@ a {
     display: table;
     width: 100%; /*Optional*/
     table-layout: fixed; /*Optional*/
+    text-align:center;
 }
 .col {
     display: table-cell;
@@ -40,7 +36,7 @@ a {
 }
 
 
-/*Tiles styles*/
+/*Tiles */
 
 .tile {
 	display: none;
@@ -73,8 +69,41 @@ a {
 }
 
 .tile-img {
-	/*height: 220px;*/
+	height: 220px;
+	background-size: cover;
 	width: 100%; 
 	margin: 8px 0px 8px 0px;
-	/*background-size: cover;*/
+}
+
+.icon {
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.next {
+	background-image: url(/images/chevron-right.png);
+}
+
+.prev {
+	background-image: url(/images/chevron-left.png);
+}
+
+/* Small devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+	.center {
+		width: 90%;
+	}
+	#tiles > div {
+		width: 30%;
+	}
+}
+
+/* Desktop devices (desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	.center {
+		width: 90%;
+	}
+	#tiles > div {
+		width: 19%;
+	}
 }
