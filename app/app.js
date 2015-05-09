@@ -9,11 +9,15 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var cars = require('./routes/cars');
 
+var expressLayouts = require('express-ejs-layouts');
+
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(expressLayouts);
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(__dirname + '/public/favicon.ico'));

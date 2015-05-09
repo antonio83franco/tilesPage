@@ -1,0 +1,34 @@
+<script src="/controllers/TilesWdgController.js"></script>
+<script src="/services/TilesService.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.0.0/mobile-detect.min.js"></script>
+
+<div ng-controller="tilesWdgController">
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td class="icon">
+              <img src="/images/chevron-left.png" ng-click="prev()" ng-show="showPrev()"/>
+            </td>
+            <td>
+              <div class="col center">
+                  <div id="tiles" class="row">
+                    <div ng-repeat="tile in tilesList" class="tile col">
+                          <div class="tile-frame" title="{{tile.title}}" href="http://www.marktplaats.nl" target="_blank">
+                              <span class="tile-price">{{tile.price | currency:"€":2}}</span>
+                              <div class="tile-img" style="background-image: url({{tile.img}});"></div>
+                              <span class="tile-title">{{tile.title}}</span>
+                          </div>
+                    </div>
+                  </div>
+              </div>
+            </td>
+            <td class="icon">
+              <img src="/images/chevron-right.png" ng-click="next()" ng-show="showNext()"/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

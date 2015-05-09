@@ -8,6 +8,10 @@ a {
 	color: #00B7FF;
 }
 
+table {
+	border-spacing: 0;
+}
+
 #header {
 	background-color: #f2b479;
 	height: 24px;
@@ -81,16 +85,11 @@ a {
 
 /* Prev and Next buttons */
 .icon {
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
-}
-.next {
-	background-image: url(/images/chevron-right.png);
+	width:8%;
 }
 
-.prev {
-	background-image: url(/images/chevron-left.png);
+.icon > img {
+	width: 23px;
 }
 
 /* Small devices (tablets, 768px and up)*/
@@ -101,7 +100,15 @@ a {
 	#tiles > div {
 		width: 30%;
 	}
-}
+	.icon > img {
+		width: 50px;
+	}
+	.icon {
+		width:5%;
+	}
+	.icon > img {
+		width: 30px;
+	}}
 
 /* Desktop devices (desktops, 1200px and up) */
 @media (min-width: 1200px) {
@@ -110,5 +117,8 @@ a {
 	}
 	#tiles > div {
 		width: 19%;
+	}
+	.icon > img {
+		width: 50px;
 	}
 }
