@@ -37,7 +37,6 @@ angular.module('tilesApp', [])
     $scope.next = function(){
       startTile++;
       endTile = startTile + tilesOnScreen;
-
       _getPagedData();
     };
 
