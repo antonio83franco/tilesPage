@@ -43,7 +43,7 @@ a {
 /*Tiles */
 
 .tile {
-	display: none;
+	/*display: none;*/
 }
 
 #tiles > div {
@@ -75,7 +75,7 @@ a {
 .tile-img {
 	height: 220px;
 	background-size: cover;
-	width: 100%; 
+	width: 100%;
 	margin: 8px 0px 8px 0px;
 }
 

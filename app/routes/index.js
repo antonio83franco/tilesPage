@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { 
+  res.render('index', {
   	placeholder: [{
 		title: "loading data...",
 		price: "1"
